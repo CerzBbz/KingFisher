@@ -10,10 +10,12 @@ public class BankFish extends FisherTask {
     public int execute() {
         if (!Bank.isOpen()) {
             Bank.open();
-            return Random.polar(1000, 1666);
+            return Random.polar(1534, 2012);
         }
-        Bank.depositAllExcept("Fly fishing rod", "Feather");
-        Time.sleep(400);
+
+        Bank.depositAll("Raw salmon", "Raw trout");
+        Time.sleep(Random.polar(1252, 4421));
+
         Bank.close();
         return Random.polar(682, 1235);
     }

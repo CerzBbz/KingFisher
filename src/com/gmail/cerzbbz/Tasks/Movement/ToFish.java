@@ -15,4 +15,9 @@ public class ToFish extends Movementate {
     public boolean validateTask() {
         return super.hasInvSpace() && !PositionHelper.atFish.getAsBoolean();
     }
+
+    @Override
+    public String getActionName() {
+        return "Walking to Spot";
+    }
 }

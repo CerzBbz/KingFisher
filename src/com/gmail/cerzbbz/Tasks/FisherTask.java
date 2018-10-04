@@ -5,6 +5,8 @@ import org.rspeer.runetek.api.scene.Players;
 import org.rspeer.script.task.Task;
 
 public abstract class FisherTask extends Task {
+    public static String LAST_ACTION_EXECUTED = "Starting...";
+
     private boolean isNotAnimating() {
         return !Players.getLocal().isAnimating();
     }
@@ -12,7 +14,17 @@ public abstract class FisherTask extends Task {
 
     @Override
     public final boolean validate() {
-        return isNotAnimating() && hasFishingRod() && hasBait() && validateTask();
+        boolean isValid = isNotAnimating() && hasFishingRod() && hasBait() && validateTask();
+
+        if (isValid) {
+            LAST_ACTION_EXECUTED = this.getActionName();
+        }
+
+        return isValid;
+    }
+
+    public String getActionName() {
+        return "";
     }
 
     private boolean hasFishingRod() {

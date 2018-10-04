@@ -3,7 +3,6 @@ package com.gmail.cerzbbz.Tasks;
 import com.gmail.cerzbbz.Helpers.PositionHelper;
 import org.rspeer.runetek.adapter.scene.Npc;
 import org.rspeer.runetek.api.commons.math.Random;
-import org.rspeer.runetek.api.component.tab.Inventory;
 import org.rspeer.runetek.api.scene.Npcs;
 import org.rspeer.ui.Log;
 
@@ -19,5 +18,10 @@ public class Fish extends FisherTask {
     @Override
     public boolean validateTask() {
         return super.hasInvSpace() && PositionHelper.atFish.getAsBoolean();
+    }
+
+    @Override
+    public String getActionName() {
+        return "Fishing";
     }
 }

@@ -10,4 +10,9 @@ public class CookFish extends FisherTask {
     public int execute() {
         return 0;
     }
+
+    @Override
+    public String getActionName() {
+        return "Cooking Fish";
+    }
 }

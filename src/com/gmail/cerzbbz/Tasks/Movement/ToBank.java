@@ -15,4 +15,9 @@ public class ToBank extends Movementate {
     public boolean validateTask() {
         return !super.hasInvSpace() && !PositionHelper.atBank.getAsBoolean();
     }
+
+    @Override
+    public String getActionName() {
+        return "Walking to Bank";
+    }
 }

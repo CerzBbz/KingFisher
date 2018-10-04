@@ -1,6 +1,7 @@
 package com.gmail.cerzbbz.Tasks;
 
 import com.gmail.cerzbbz.Helpers.PositionHelper;
+import com.gmail.cerzbbz.PowerFisher;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.commons.math.Random;
 import org.rspeer.runetek.api.component.Bank;
@@ -22,8 +23,11 @@ public class BankFish extends FisherTask {
 
     @Override
     public boolean validateTask() {
-        return !super.hasInvSpace() && PositionHelper.atBank.getAsBoolean();
+        return !super.hasInvSpace() && PositionHelper.atBank.getAsBoolean() && !PowerFisher.shouldDropFish;
     }
 
-
+    @Override
+    public String getActionName() {
+        return "Depositing fish";
+    }
 }

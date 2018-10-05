@@ -6,7 +6,6 @@ import com.gmail.cerzbbz.Tasks.Movement.ToFish;
 
 import org.rspeer.runetek.api.component.tab.Skill;
 import org.rspeer.runetek.api.component.tab.Skills;
-import org.rspeer.runetek.api.scene.Players;
 import org.rspeer.runetek.event.listeners.RenderListener;
 import org.rspeer.runetek.event.types.RenderEvent;
 import org.rspeer.script.ScriptMeta;
@@ -22,9 +21,11 @@ public class PowerFisher extends TaskScript implements RenderListener {
     //Temporary Globals;
     public static boolean shouldDropFish = true;
 
-    public long timeStarted;
-    public int startingXp;
+    private long timeStarted;
+    private int startingXp;
     public int currentXp;
+
+    public static int[] rawFish = {331,335};
 
     private final Task[] TASKS = {
             new Fish(),

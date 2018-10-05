@@ -5,8 +5,9 @@ import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.commons.math.Random;
 import org.rspeer.runetek.api.component.tab.Inventory;
+import org.rspeer.ui.Log;
 
-import java.util.regex.Pattern;
+import java.util.Arrays;
 
 public class DropFish extends FisherTask{
     @Override
@@ -16,19 +17,35 @@ public class DropFish extends FisherTask{
 
     @Override
     public int execute() {
-        Item[] items = Inventory.getItems(Pattern.compile("(Raw (salmon|trout))"));
+        Time.sleep(Random.polar(250, 1500));
 
-        for(int i = 0, end = items.length; i < end; i++) {
-            //Gonna be annoying here and pretend like we're people, dropping not in the right way
-            if (Random.polar(0,9) == 4 && i + 4 < end) {
-                items[i + 4].interact("Drop");
+        for (int j = 0; j < 7; j++) {
+            int i = 0;
+
+            for (; i < 4; i++) {
+                this.dropItemAtIndex((j == 0 ? 0 : j * 4) + i);
             }
 
-            items[i].interact("Drop");
+            if (j != 6) {
+                j++;
 
-            Time.sleep(Random.polar(88, 300));
+                for (i = 3; i >= 0; i--) {
+                    this.dropItemAtIndex((j == 0 ? 0 : j * 4) + i);
+                }
+            }
         }
+
         return Random.polar(150, 2000);
+    }
+
+    public void dropItemAtIndex(int index) {
+        Item item = Inventory.getItemAt(index);
+
+
+        if (Arrays.binarySearch(PowerFisher.rawFish, item.getId()) >= 0) {
+            item.interact("Drop");
+            Time.sleep(Random.polar(200, 300));
+        }
     }
 
     @Override

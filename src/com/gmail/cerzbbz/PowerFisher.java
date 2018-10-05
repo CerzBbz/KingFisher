@@ -47,12 +47,16 @@ public class PowerFisher extends TaskScript implements RenderListener {
 
     @Override
     public void notify(RenderEvent renderEvent) {
+        int offset = 200;
+
         Graphics g = renderEvent.getSource();
 
-        g.setColor(Color.magenta);
-        g.fillRect(8, 250, 160, 80);
+        Color c = new Color(255,40,201, 116);
+
+        g.setColor(c);
+        g.fillRect(8, offset, 160, 80);
         g.setColor(Color.pink);
-        g.drawRect(8, 250, 160, 80);
+        g.drawRect(8, offset, 160, 80);
 
         g.setColor(Color.white);
 
@@ -61,9 +65,11 @@ public class PowerFisher extends TaskScript implements RenderListener {
 
         NumberFormat format = NumberFormat.getInstance();
 
-        g.drawString("Currently " + FisherTask.LAST_ACTION_EXECUTED, 16, 268);
-        g.drawString("XP/HR: " + format.format((totalXpEarnt / timeRunningFor) * 60 * 60), 16, 284);
-        g.drawString("Gained: " + format.format(totalXpEarnt), 16, 300);
-        g.drawString("Next Level in: " + format.format(Skills.getExperienceToNextLevel(Skill.FISHING)), 16, 316);
+        offset += 16;
+
+        g.drawString("Currently " + FisherTask.LAST_ACTION_EXECUTED, 16, offset);
+        g.drawString("XP/HR: " + format.format((totalXpEarnt / timeRunningFor) * 60 * 60), 16, offset + 16);
+        g.drawString("Gained: " + format.format(totalXpEarnt), 16, offset + 32);
+        g.drawString("Next Level in: " + format.format(Skills.getExperienceToNextLevel(Skill.FISHING)), 16, offset + 48);
     }
 }

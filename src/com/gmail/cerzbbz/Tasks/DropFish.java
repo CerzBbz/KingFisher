@@ -5,14 +5,13 @@ import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.commons.math.Random;
 import org.rspeer.runetek.api.component.tab.Inventory;
-import org.rspeer.ui.Log;
 
 import java.util.Arrays;
 
 public class DropFish extends FisherTask{
     @Override
     public boolean validateTask() {
-        return Inventory.isFull() && PowerFisher.shouldDropFish;
+        return Inventory.isFull() && PowerFisher.shouldDropFish && !super.hasCookableFish();
     }
 
     @Override
@@ -42,7 +41,7 @@ public class DropFish extends FisherTask{
         Item item = Inventory.getItemAt(index);
 
 
-        if (Arrays.binarySearch(PowerFisher.rawFish, item.getId()) >= 0) {
+        if (Arrays.binarySearch(PowerFisher.dropFish, item.getId()) >= 0) {
             item.interact("Drop");
             Time.sleep(Random.polar(200, 300));
         }

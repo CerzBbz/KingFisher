@@ -23,7 +23,7 @@ public class PowerFisher extends TaskScript implements RenderListener {
 
     //Temporary Globals;
     public static boolean shouldBankFish = false;
-    public static boolean shouldCookFish = false;
+    public static boolean shouldCookFish = true;
     public static boolean shouldDropFish = true;
 
 

@@ -1,17 +1,14 @@
 package com.gmail.cerzbbz.Tasks;
 
 import com.gmail.cerzbbz.PowerFisher;
-import org.rspeer.runetek.adapter.Interactable;
 import org.rspeer.runetek.adapter.component.InterfaceComponent;
 import org.rspeer.runetek.adapter.component.Item;
-import org.rspeer.runetek.adapter.scene.Npc;
-import org.rspeer.runetek.adapter.scene.SceneObject;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.commons.math.Random;
-import org.rspeer.runetek.api.component.Dialog;
 import org.rspeer.runetek.api.component.Interfaces;
 import org.rspeer.runetek.api.component.tab.Inventory;
-import org.rspeer.runetek.api.scene.Npcs;
+import org.rspeer.runetek.api.component.tab.Skill;
+import org.rspeer.runetek.api.component.tab.Skills;
 import org.rspeer.runetek.api.scene.SceneObjects;
 import org.rspeer.ui.Log;
 
@@ -23,11 +20,11 @@ public class CookFish extends FisherTask {
 
     @Override
     public int execute() {
-        Time.sleep(Random.polar(260, 5500));
-
         Log.info("Trying to cook");
 
         for(int fishId : PowerFisher.cookableFish) {
+            int cookingLevel = Skills.getCurrentLevel(Skill.COOKING);
+
             if(!Inventory.contains(fishId))
             {
                 continue;
@@ -43,7 +40,12 @@ public class CookFish extends FisherTask {
             InterfaceComponent cookFishButton = Interfaces.getComponent(270, 14);
             cookFishButton.interact(action -> true);
 
-            Time.sleep(Random.mid(6000,18000));
+            while (Inventory.contains(fishId)) {
+                if (Skills.getCurrentLevel(Skill.COOKING) > cookingLevel) {
+                    return 0;
+                }
+                Time.sleep(Random.high(800, 1600));
+            }
         }
 
         return 0;

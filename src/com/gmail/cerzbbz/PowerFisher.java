@@ -28,7 +28,8 @@ public class PowerFisher extends TaskScript implements RenderListener {
 
 
     private long timeStarted;
-    private int startingXp;
+    private int startingFishingXp;
+    private int startingCookingXp;
     public int currentXp;
 
     public static int[] rawFish = {331, 335};
@@ -66,7 +67,8 @@ public class PowerFisher extends TaskScript implements RenderListener {
         this.setPaused(true);
 
         this.timeStarted = System.currentTimeMillis();
-        this.startingXp = Skills.getExperience(Skill.FISHING);
+        this.startingFishingXp = Skills.getExperience(Skill.FISHING);
+        this.startingCookingXp = Skills.getExperience(Skill.COOKING);
     }
 
     @Override
@@ -77,24 +79,47 @@ public class PowerFisher extends TaskScript implements RenderListener {
 
         Color c = new Color(255,40,201, 116);
 
-        g.setColor(c);
-        g.fillRect(8, offset, 160, 80);
-        g.setColor(Color.pink);
-        g.drawRect(8, offset, 160, 80);
+        int boxHeight = 80;
 
-        g.setColor(Color.white);
-
-        int totalXpEarnt = Skills.getExperience(Skill.FISHING) - startingXp;
         long timeRunningFor = (System.currentTimeMillis() - this.timeStarted) / 1000;
 
         NumberFormat format = NumberFormat.getInstance();
 
-        offset += 16;
+        int fishingXpEarnt = Skills.getExperience(Skill.FISHING) - startingFishingXp;
+        long fishingXpHr = timeRunningFor >= 1 ? (fishingXpEarnt / timeRunningFor) * 60 * 60 : 0;
+        int cookingXpEarnt = Skills.getExperience(Skill.COOKING) - startingCookingXp;
+        long cookingXpHr = timeRunningFor >= 1 ? (cookingXpEarnt / timeRunningFor) * 60 * 60 : 0;
 
-        g.drawString("Currently " + FisherTask.LAST_ACTION_EXECUTED, 16, offset);
-        g.drawString("XP/HR: " + format.format((totalXpEarnt / timeRunningFor) * 60 * 60), 16, offset + 16);
-        g.drawString("Gained: " + format.format(totalXpEarnt), 16, offset + 32);
-        g.drawString("Next Level in: " + format.format(Skills.getExperienceToNextLevel(Skill.FISHING)), 16, offset + 48);
+        ArrayList<String> stringsToPrint = new ArrayList<>();
+
+        stringsToPrint.add("Currently " + FisherTask.LAST_ACTION_EXECUTED);
+        stringsToPrint.add("Fishing");
+        stringsToPrint.add("XP/HR: " + format.format(fishingXpHr));
+        stringsToPrint.add("XP Gained: " + format.format(fishingXpEarnt));
+        stringsToPrint.add("XP to level: " + format.format(Skills.getExperienceToNextLevel(Skill.FISHING)));
+
+        if(shouldCookFish)
+        {
+            boxHeight = 160;
+            stringsToPrint.add("");
+            stringsToPrint.add("Cooking");
+            stringsToPrint.add("XP/HR: " + format.format(cookingXpHr));
+            stringsToPrint.add("XP Gained: " + format.format(cookingXpEarnt));
+            stringsToPrint.add("XP to level: " + format.format(Skills.getExperienceToNextLevel(Skill.COOKING)));
+        }
+
+        g.setColor(c);
+        g.fillRect(8, offset, 160, boxHeight);
+        g.setColor(Color.pink);
+        g.drawRect(8, offset, 160, boxHeight);
+        g.setColor(Color.white);
+
+
+        int i = 1;
+        for(String stringToPrint : stringsToPrint) {
+            g.drawString(stringToPrint, 16, offset + (16 * i));
+            i++;
+        }
     }
 
     private boolean canCookFish(int rawFishId) {
